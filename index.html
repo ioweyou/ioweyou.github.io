@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>IOU by ioweyou</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">IOU</h1>
+      <h2 class="project-tagline">A+ Promises for Java</h2>
+    </section>
+
+    <section class="main-content">
+      <p>IOU is a promise-library that adheres to the <a href="https://github.com/promises-aplus/promises-spec">A+ spec</a> as closely as possible. It is written in Java, so it can be plugged in to any regular Java, Groovy, Kotlin or Android-project.</p>
+
+<p><a href="#implementations">Implementations</a></p>
+
+<p><a href="#dependency-management">Dependency management</a></p>
+
+<ul>
+<li><a href="#maven">Maven</a></li>
+<li><a href="#gradle">Gradle</a></li>
+</ul>
+
+<p><a href="#examples">Examples</a></p>
+
+<ul>
+<li><a href="#call-with-single-then">Call with single then</a></li>
+<li><a href="#call-with-single-then-and-java-8-lambda">Call with single then and Java 8 lambda</a></li>
+<li><a href="#chained-or-piped-promise">Chained or piped promise</a></li>
+<li><a href="#parallel-promise">Parallel promise</a></li>
+<li><a href="#rejecting-a-promise">Rejecting a promise</a></li>
+<li><a href="#failing-a-promise">Failing a promise</a></li>
+</ul>
+
+<h2>
+<a id="implementations" class="anchor" href="#implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementations</h2>
+
+<ul>
+<li><a href="https://github.com/ioweyou/iou-java">IOU Java</a></li>
+<li><a href="https://github.com/ioweyou/iou-android">IOU Android</a></li>
+</ul>
+
+<h2>
+<a id="dependency-management" class="anchor" href="#dependency-management" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependency management</h2>
+
+<h3>
+<a id="maven" class="anchor" href="#maven" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven</h3>
+
+<hr>
+
+<h4>
+<a id="regular" class="anchor" href="#regular" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Regular</h4>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;nl.brusque.iou&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;iou-java&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;1.0.0-beta-02&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
+
+<h4>
+<a id="android" class="anchor" href="#android" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android</h4>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;nl.brusque.iou&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;iou-android&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;1.0.0-beta-01&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
+
+<h3>
+<a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gradle</h3>
+
+<hr>
+
+<h4>
+<a id="regular-1" class="anchor" href="#regular-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Regular</h4>
+
+<pre><code>compile 'nl.brusque.iou:iou-java:1.0.0-beta-02'
+</code></pre>
+
+<h4>
+<a id="android-1" class="anchor" href="#android-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android</h4>
+
+<pre><code>compile 'nl.brusque.iou:iou-android:1.0.0-beta-01'
+</code></pre>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+
+<hr>
+
+<h3>
+<a id="given-the-example-implementation" class="anchor" href="#given-the-example-implementation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Given the example implementation</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">class</span> <span class="pl-en">TestTypedIOU</span>&lt;TInput&gt; <span class="pl-k">extends</span> <span class="pl-e">AbstractIOU&lt;<span class="pl-smi">TInput</span>&gt;</span> {
+  <span class="pl-c1">...</span>
+}
+
+<span class="pl-k">class</span> <span class="pl-en">TestTypedPromise</span>&lt;TInput&gt; <span class="pl-k">extends</span> <span class="pl-e">AbstractPromise&lt;<span class="pl-smi">TInput</span>&gt;</span> {
+  <span class="pl-c1">...</span>
+}
+
+<span class="pl-k">TestTypedIOU&lt;<span class="pl-smi">Integer</span>&gt;</span> iou <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">TestTypedIOU&lt;&gt;</span>();
+</pre></div>
+
+<h3>
+<a id="call-with-single-then" class="anchor" href="#call-with-single-then" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Call with single then</h3>
+
+<div class="highlight highlight-source-java"><pre>iou<span class="pl-k">.</span>getPromise()
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">Void</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">integer</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(integer);
+
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+    });
+
+iou<span class="pl-k">.</span>resolve(<span class="pl-c1">42</span>); <span class="pl-c">// prints 42</span></pre></div>
+
+<h3>
+<a id="call-with-single-then-and-java-8-lambda" class="anchor" href="#call-with-single-then-and-java-8-lambda" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Call with single then and Java 8 lambda</h3>
+
+<div class="highlight highlight-source-java"><pre>iou<span class="pl-k">.</span>getPromise()
+    .then((<span class="pl-smi">Integer</span> integer) <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(integer);
+
+        <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+    });
+
+iou<span class="pl-k">.</span>resolve(<span class="pl-c1">42</span>); <span class="pl-c">// prints 42</span></pre></div>
+
+<h3>
+<a id="chained-or-piped-promise" class="anchor" href="#chained-or-piped-promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chained or piped promise</h3>
+
+<div class="highlight highlight-source-java"><pre>iou<span class="pl-k">.</span>getPromise()
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-k">return</span> input <span class="pl-k">*</span> <span class="pl-c1">10</span>;
+        }
+    })
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">String</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-k">return</span> <span class="pl-smi">String</span><span class="pl-k">.</span>format(<span class="pl-s"><span class="pl-pds">"</span>The result: %d<span class="pl-pds">"</span></span>, input);
+        }
+    })
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">String</span>, <span class="pl-smi">Void</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">String</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(input);
+
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+    });
+
+iou<span class="pl-k">.</span>resolve(<span class="pl-c1">42</span>); <span class="pl-c">// prints "The result: 420"</span></pre></div>
+
+<h3>
+<a id="sequential-promise" class="anchor" href="#sequential-promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sequential promise</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">TestTypedPromise&lt;<span class="pl-smi">Integer</span>&gt;</span> promise <span class="pl-k">=</span> iou<span class="pl-k">.</span>getPromise();
+
+promise
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">Void</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(input);
+
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+    });
+
+promise
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">String</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">String</span> result <span class="pl-k">=</span> <span class="pl-smi">String</span><span class="pl-k">.</span>format(<span class="pl-s"><span class="pl-pds">"</span>%d * 10 = %d<span class="pl-pds">"</span></span>, input, input <span class="pl-k">*</span> <span class="pl-c1">10</span>);
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(result);
+
+            <span class="pl-k">return</span> result;
+        }
+    });
+
+iou<span class="pl-k">.</span>resolve(<span class="pl-c1">42</span>); <span class="pl-c">// prints "42" and "42 * 10 = 420" in exactly this order</span></pre></div>
+
+<h3>
+<a id="rejecting-a-promise" class="anchor" href="#rejecting-a-promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rejecting a promise</h3>
+
+<div class="highlight highlight-source-java"><pre>iou<span class="pl-k">.</span>getPromise()
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">integer</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-k">return</span> integer <span class="pl-k">*</span> <span class="pl-c1">42</span>;
+        }
+    }, <span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Object</span>, <span class="pl-smi">Void</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">Object</span> <span class="pl-v">reason</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-smi">String</span><span class="pl-k">.</span>format(<span class="pl-s"><span class="pl-pds">"</span>%s I can't do that.<span class="pl-pds">"</span></span>, reason));
+
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+    });
+
+iou<span class="pl-k">.</span>reject(<span class="pl-s"><span class="pl-pds">"</span>I'm sorry, Dave.<span class="pl-pds">"</span></span>); <span class="pl-c">// prints "I'm sorry, Dave. I can't do that."</span></pre></div>
+
+<h3>
+<a id="failing-a-promise" class="anchor" href="#failing-a-promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Failing a promise</h3>
+
+<div class="highlight highlight-source-java"><pre>iou<span class="pl-k">.</span>getPromise()
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-smi">Exception</span>(<span class="pl-s"><span class="pl-pds">"</span>I just don't care.<span class="pl-pds">"</span></span>);
+        }
+    })
+    .then(<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Integer</span>, <span class="pl-smi">Void</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">Integer</span> <span class="pl-v">input</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>What would you say it is you do here?<span class="pl-pds">"</span></span>);
+
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+    } ,<span class="pl-k">new</span> <span class="pl-k">IThenCallable&lt;<span class="pl-smi">Object</span>, <span class="pl-smi">Void</span>&gt;</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-smi">Void</span> <span class="pl-en">apply</span>(<span class="pl-smi">Object</span> <span class="pl-v">reason</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+            <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-smi">String</span><span class="pl-k">.</span>format(<span class="pl-s"><span class="pl-pds">"</span>It's not that I'm lazy, it's that %s<span class="pl-pds">"</span></span>, ((<span class="pl-smi">Exception</span>)reason)<span class="pl-k">.</span>getMessage()));
+
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+    });
+
+iou<span class="pl-k">.</span>resolve(<span class="pl-c1">42</span>); <span class="pl-c">// prints "It's not that I'm lazy, it's that I just don't care."</span></pre></div>
+
+      <footer class="site-footer">
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
